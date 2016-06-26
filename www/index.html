@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html ng-app="eliteApp">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" type="text/css" rel="stylesheet">
+    <link href="css/style.css" type="text/css" rel="stylesheet">
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <!--inject:js-->
+    <script src="app/app.js"></script>
+    <script src="app/home/leagues-ctrl.js"></script>
+    <script src="app/locations/locations-ctrl.js"></script>
+    <script src="app/services/eliteApi.js"></script>
+    <script src="app/teams/team-detail-ctrl.js"></script>
+    <script src="app/teams/teams-ctrl.js"></script>
+    <!--endinject-->
+
+  </head>
+  <body>
+    <ion-nav-view></ion-nav-view>
+  </body>
+</html>

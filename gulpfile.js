@@ -55,7 +55,7 @@ gulp.task('inject-js', function () {
   return gulp
     .src(config.index)
     .pipe($.if(argvs.verbose, $.print()))
-    .pipe($.inject(gulp.src(config.js, {base:config.www})))
+    .pipe($.inject(gulp.src(config.js, {read:false}), {relative:true}))
     .pipe(gulp.dest(config.www));
 });
 

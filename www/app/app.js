@@ -65,7 +65,9 @@ angular.module('eliteApp', ['ionic'])
         url: '/teams/:id',
         views: {
           'mainContent': {
-            templateUrl: 'app/teams/team-detail.html'
+            templateUrl: 'app/teams/team-detail.html',
+            controller: 'MainDetailCtrl',
+            controllerAs: 'vm'
           }
         }
       })
@@ -73,7 +75,9 @@ angular.module('eliteApp', ['ionic'])
         url: '/game/:id',
         views: {
           'mainContent': {
-            templateUrl: 'app/game/game.html'
+            templateUrl: 'app/game/game.html',
+            controller: 'GameCtrl',
+            controllerAs: 'vm'
           }
         }
       })

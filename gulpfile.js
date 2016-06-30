@@ -59,7 +59,7 @@ gulp.task('inject-js', function () {
     .pipe(gulp.dest(config.www));
 });
 
-gulp.task('inject-dependencies', function () {
+gulp.task('annotate', function () {
   return gulp
     .src(config.js)
     .pipe($.if(argvs.verbose, $.print()))
@@ -67,4 +67,4 @@ gulp.task('inject-dependencies', function () {
     .pipe(gulp.dest(config.app));
 });
 
-gulp.task('inject', ['inject-js', 'inject-dependencies']);
+gulp.task('inject', ['inject-js', 'annotate']);

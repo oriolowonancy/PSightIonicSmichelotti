@@ -110,5 +110,5 @@ angular.module('eliteApp', ['ionic'])
         }
       })
 
-    $urlRouterProvider.otherwise('/app/teams');
+    $urlRouterProvider.otherwise('/home/leagues');
   }])

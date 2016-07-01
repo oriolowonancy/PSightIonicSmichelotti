@@ -4,12 +4,16 @@
   angular.module('eliteApp').controller('LeaguesCtrl', LeaguesCtrl);
 
   function LeaguesCtrl($state, eliteApi, $log) {
-    var vm = this;
-    var leagues = eliteApi.getLeagues();
 
-    vm.leagues = leagues;
+    var vm = this;
+
+    eliteApi.getLeagues().then(function (data) {
+      
+      vm.leagues = data;
+    });
 
     vm.selectLeague = function (leagueId) {
+      eliteApi.setLeagueId(leagueId);
       $state.go('app.teams');
     };
   }

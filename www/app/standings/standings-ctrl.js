@@ -4,9 +4,12 @@
     angular.module('eliteApp').controller('StandingsCtrl', StandingsCtrl);
     
     function StandingsCtrl(eliteApi) {
+
         var vm = this;
-        
-        vm.standings = eliteApi.getLeaguesData().standings;
+
+        eliteApi.getLeaguesData().then(function (data) {
+            vm.standings = data.standings;
+        })
     }
     
 }());

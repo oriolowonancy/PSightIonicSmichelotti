@@ -7,9 +7,9 @@
   function TeamsCtrl(eliteApi) {
 
     var vm = this;
-    vm.teams = eliteApi.getLeaguesData().teams;
+
+    eliteApi.getLeaguesData().then(function (data) {
+      vm.teams = data.teams;
+    });
   }
-
-
-
 }());

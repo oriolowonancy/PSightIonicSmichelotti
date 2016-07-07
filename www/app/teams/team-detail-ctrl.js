@@ -1,9 +1,10 @@
 (function () {
   'use strict';
 
+  TeamDetailCtrl.$inject = ['$stateParams', '$log', '$ionicPopup', 'eliteApi', '$state'];
   angular.module('eliteApp').controller('MainDetailCtrl', TeamDetailCtrl);
 
-  function TeamDetailCtrl($stateParams, $log, $ionicPopup, eliteApi) {
+  function TeamDetailCtrl($stateParams, $log, $ionicPopup, eliteApi, $state) {
     var vm = this;
 
     $log.debug('invoked teamDetailCtrl', $stateParams);

@@ -1,6 +1,8 @@
-angular.module('eliteApp', ['ionic'])
+angular.module('eliteApp', ['ionic', 'angular-cache'])
+    
+  .run(['$ionicPlatform', 'CacheFactory', function ($ionicPlatform, CacheFactory) {
 
-  .run(["$ionicPlatform", function ($ionicPlatform) {
+    console.log('run');
 
     $ionicPlatform.ready(function () {
 
@@ -15,6 +17,13 @@ angular.module('eliteApp', ['ionic'])
       if (window.StatusBar) {
         StatusBar.styleDefault();
       }
+
+      console.log('CacheFactory', CacheFactory);
+      
+      CacheFactory("leagueDataCache", {storageMode: "localStorage", maxAge: 10000});
+      CacheFactory("leaguesCache", {storageMode: "localStorage", maxAge: 10000});
+      CacheFactory("myTeamsCache", {storageMode: "localStorage"});
+      CacheFactory("staticCache", {storageMode: "localStorage"});
     });
   }])
 
@@ -28,6 +37,7 @@ angular.module('eliteApp', ['ionic'])
         abstract: true,
         url: '/home',
         templateUrl: 'app/home/home.html'
+
       })
       .state('home.leagues', {
         url:'/leagues',
@@ -55,9 +65,7 @@ angular.module('eliteApp', ['ionic'])
         url: '/teams', // will be /app/teams
         views: {
           'mainContent': {
-            templateUrl: 'app/teams/teams.html',
-            controller: 'TeamsCtrl',
-            controllerAs: 'vm'
+            templateUrl: 'app/teams/teams.html'
           }
         }
       })
@@ -65,9 +73,7 @@ angular.module('eliteApp', ['ionic'])
         url: '/teams/:id',
         views: {
           'mainContent': {
-            templateUrl: 'app/teams/team-detail.html',
-            controller: 'MainDetailCtrl',
-            controllerAs: 'vm'
+            templateUrl: 'app/teams/team-detail.html'
           }
         }
       })
@@ -75,9 +81,7 @@ angular.module('eliteApp', ['ionic'])
         url: '/game/:id',
         views: {
           'mainContent': {
-            templateUrl: 'app/game/game.html',
-            controller: 'GameCtrl',
-            controllerAs: 'vm'
+            templateUrl: 'app/game/game.html'
           }
         }
       })
@@ -85,9 +89,7 @@ angular.module('eliteApp', ['ionic'])
         url: '/standings',
         views: {
           'mainContent': {
-            templateUrl: 'app/standings/standings.html',
-            controller: 'StandingsCtrl',
-            controllerAs: 'vm'
+            templateUrl: 'app/standings/standings.html'
           }
         }
       })
@@ -95,9 +97,7 @@ angular.module('eliteApp', ['ionic'])
         url: '/locations',
         views: {
           'mainContent': {
-            templateUrl: 'app/locations/locations.html',
-            controller: 'LocationsCtrl',
-            controllerAs: 'vm'
+            templateUrl: 'app/locations/locations.html'
           }
         }
       })
@@ -108,7 +108,7 @@ angular.module('eliteApp', ['ionic'])
             templateUrl: 'app/rules/rules.html'
           }
         }
-      })
+      });
 
     $urlRouterProvider.otherwise('/home/leagues');
-  }])
+  }]);

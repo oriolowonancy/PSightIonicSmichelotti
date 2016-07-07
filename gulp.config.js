@@ -9,7 +9,6 @@ module.exports = function () {
     index: www + 'index.html',
     js: [
         app + 'app.js',
-        app + 'services/eliteApi.js',
         app + '**/*.js'
     ]
   };

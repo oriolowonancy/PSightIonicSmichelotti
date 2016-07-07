@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var bower = require('bower');
 var sh = require('shelljs');
 var argvs = require('yargs').argv;
+var wiredep = require('wiredep').stream;
 
 var $ = require('gulp-load-plugins')();
 
@@ -11,7 +12,7 @@ var paths = {
   sass: ['./scss/**/*.scss']
 };
 
-gulp.task('default', ['sass']);
+//gulp.task('default', ['sass']);
 
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
@@ -51,6 +52,14 @@ gulp.task('git-check', function(done) {
 });
 
 ////////////////////
+
+gulp.task('wiredep', function() {
+  return gulp
+      .src(config.index)
+      .pipe(wiredep())
+      .pipe(gulp.dest(config.www));
+});
+
 gulp.task('inject-js', function () {
   return gulp
     .src(config.index)
@@ -63,8 +72,12 @@ gulp.task('annotate', function () {
   return gulp
     .src(config.js)
     .pipe($.if(argvs.verbose, $.print()))
-    .pipe($.ngAnnotate())
+    .pipe($.ngAnnotate({remove:true, add:true, single_quotes:true}))
     .pipe(gulp.dest(config.app));
 });
 
+gulp.task('help', $.taskListing);
+
 gulp.task('inject', ['inject-js', 'annotate']);
+
+gulp.task('default', ['inject']);

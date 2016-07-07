@@ -1,10 +1,10 @@
 <ion-view>
-  <ion-content class="has-header">
+  <ion-content class="has-header" ng-controller="TeamsCtrl as vm">
     <div class="list">
       <div ng-repeat="team in vm.teams">
 
         <div class="item item-divider item-energized">
-          {{team.divisionName}}
+          {{team.divisionName || 'Unknown'}}
         </div>
 
         <a class="item item-icon-right" ui-sref="app.team-detail({id:division.id})" ng-repeat="division in team.divisionTeams">

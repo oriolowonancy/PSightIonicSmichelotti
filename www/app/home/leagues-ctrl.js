@@ -1,6 +1,6 @@
 (function () {
 
-  LeaguesCtrl.$inject = ["$state", "eliteApi", "$log"];
+  LeaguesCtrl.$inject = ['$state', 'eliteApi', '$log'];
   angular.module('eliteApp').controller('LeaguesCtrl', LeaguesCtrl);
 
   function LeaguesCtrl($state, eliteApi, $log) {

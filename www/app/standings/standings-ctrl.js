@@ -1,6 +1,6 @@
 (function () {
     
-    StandingsCtrl.$inject = ["eliteApi"];
+    StandingsCtrl.$inject = ['eliteApi'];
     angular.module('eliteApp').controller('StandingsCtrl', StandingsCtrl);
     
     function StandingsCtrl(eliteApi) {

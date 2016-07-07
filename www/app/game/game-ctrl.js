@@ -1,6 +1,6 @@
 (function () {
 
-    GameCtrl.$inject = ["$stateParams", "eliteApi"];
+    GameCtrl.$inject = ['$stateParams', 'eliteApi'];
     angular.module('eliteApp').controller('GameCtrl', GameCtrl);
 
     function GameCtrl($stateParams, eliteApi) {

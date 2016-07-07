@@ -5,12 +5,18 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
 
+    <!--bower:css-->
+    <link rel="stylesheet" href="lib/ionic/css/ionic.css" />
+    <!--endbower-->
     <link href="lib/ionic/css/ionic.css" type="text/css" rel="stylesheet">
     <link href="css/style.css" type="text/css" rel="stylesheet">
 
     <!-- ionic/angularjs js -->
+    <!--bower:js-->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="lib/lodash/dist/lodash.min.js"></script>
+    <script src="lib/angular-cache/dist/angular-cache.js"></script>
+    <!--endbower-->
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
@@ -18,10 +24,10 @@
     <!-- your app's js -->
     <!--inject:js-->
     <script src="app/app.js"></script>
-    <script src="app/services/eliteApi.js"></script>
     <script src="app/game/game-ctrl.js"></script>
     <script src="app/home/leagues-ctrl.js"></script>
     <script src="app/locations/locations-ctrl.js"></script>
+    <script src="app/services/eliteApi.js"></script>
     <script src="app/standings/standings-ctrl.js"></script>
     <script src="app/teams/team-detail-ctrl.js"></script>
     <script src="app/teams/teams-ctrl.js"></script>

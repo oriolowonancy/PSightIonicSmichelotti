@@ -1,61 +1,119 @@
 (function () {
-  'use strict';
+    'use strict';
 
-  eliteApi.$inject = ['$http', '$q', '$ionicLoading', '$timeout'];
-  angular.module('eliteApp').factory('eliteApi', eliteApi);
-  
-  function eliteApi($http, $q, $ionicLoading, $timeout) {
+    eliteApi.$inject = ['$http', '$q', '$ionicLoading', '$timeout', 'CacheFactory'];
+    angular.module('eliteApp').factory('eliteApi', eliteApi);
 
-    var currentLeagueId;
 
-    var getLeagues = function() {
-      
-      var deferred = $q.defer();
+    function eliteApi($http, $q, $ionicLoading, $timeout, CacheFactory) {
 
-      $ionicLoading.show({template:'loading...'});
+        self.leaguesCache = CacheFactory.get("leaguesCache");
+        self.leagueDataCache = CacheFactory.get("leagueDataCache");
 
-      $http.get('http://elite-schedule.net/api/leaguedata/')
-          .success(function(data) {
-            deferred.resolve(data);
-          })
-          .finally(function () {
-            $ionicLoading.hide();
-            
-          });
-      
-      return deferred.promise;
-    };
+        self.leaguesCache.setOptions({
+            onExpire: function (key, value) {
 
-    var getLeaguesData = function () {
-      
-      var deferred = $q.defer();
+                console.log('--->onExpire leaguesCache');
 
-      $ionicLoading.show({template: 'loading...'});
+                getLeagues()
+                    .then(function () {
+                        console.log('Leagues Cache was automatically refreshed. ' + new Date());
+                    }, function () {
+                        console.log('Error getting data. Putting expired item back to cache ' + new Date());
+                        self.leaguesCache.put(key, value);
+                    });
+            }
+        });
 
-      $http.get('http://elite-schedule.net/api/leaguedata/' + currentLeagueId)
-          .success(function (data, status) {
-            console.log('Received schedue data via HTTP.', data, status);
-            deferred.resolve(data);
-          })
-          .error(function(error) {
-            console.error('Error while making HTTP call.', error);
-            deferred.reject(error);
-          })
-          .finally(function() {
-            $ionicLoading.hide();
-          });
-      
-      return deferred.promise;
-    };
+        self.leagueDataCache.setOptions({
+            onExpire: function (key, value) {
 
-    function setLeagueId(leagueId) {
-      currentLeagueId = leagueId;
+                console.log('--->onExpire leagueDataCache');
+
+                getLeaguesData().then(
+                    function() {
+                        console.log("League Data Cache was automatically refreshed. " + new Date());
+                    },
+                    function() {
+                        console.log('Error getting data. Putting expired item back to cache.' + new Date());
+                        self.leagueDataCache.put(key, value);
+                    }
+                );
+            }
+        });
+
+        self.staticCache = CacheFactory.get('staticCache');
+
+        function setLeagueId(leagueId) {
+            self.staticCache.put('currentLeagueId', leagueId);
+        }
+
+        function getLeagueId() {
+            var id = self.staticCache.get('currentLeagueId');
+            console.log('get leagueid from cache ' + id);
+            return id;
+        }
+
+
+        var getLeagues = function () {
+
+            var deferred = $q.defer(),
+                cacheKey = 'leagues',
+                leagues = self.leaguesCache.get(cacheKey);
+
+            if (leagues) {
+
+                console.log("Found data inside cache", leagues);
+                deferred.resolve(leagues);
+
+            } else {
+                $ionicLoading.show({template: 'loading...'});
+
+                $http.get('http://elite-schedule.net/api/leaguedata/')
+                    .success(function (data) {
+                        self.leaguesCache.put(cacheKey, data);
+                        deferred.resolve(data);
+                    })
+                    .finally(function () {
+                        $ionicLoading.hide();
+                    });
+            }
+            return deferred.promise;
+        };
+
+        var getLeaguesData = function () {
+
+            var deferred = $q.defer(),
+                cacheKey = 'leagueData-' + getLeagueId(),
+                leagueData = self.leagueDataCache.get(cacheKey);
+
+            if (leagueData) {
+                console.log('Found data inside cache', leagueData);
+                deferred.resolve(leagueData);
+            } else {
+                $ionicLoading.show({template: 'loading...'});
+
+                $http.get('http://elite-schedule.net/api/leaguedata/' + getLeagueId())
+                    .success(function (data, status) {
+                        console.log('Received schedue data via HTTP.', data, status);
+                        self.leagueDataCache.put(cacheKey, data);
+                        deferred.resolve(data);
+                    })
+                    .error(function (error) {
+                        console.error('Error while making HTTP call.', error);
+                        deferred.reject(error);
+                    })
+                    .finally(function () {
+                        $ionicLoading.hide();
+                    });
+            }
+            return deferred.promise;
+        };
+
+        return {
+            getLeagues: getLeagues,
+            getLeaguesData: getLeaguesData,
+            setLeagueId: setLeagueId
+        }
     }
-
-    return {
-      getLeagues: getLeagues,
-      getLeaguesData: getLeaguesData,
-      setLeagueId: setLeagueId
-    }
-  }
 }());

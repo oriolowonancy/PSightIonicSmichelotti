@@ -17,11 +17,9 @@ angular.module('eliteApp', ['ionic', 'angular-cache'])
       if (window.StatusBar) {
         StatusBar.styleDefault();
       }
-
-      console.log('CacheFactory', CacheFactory);
       
-      CacheFactory("leagueDataCache", {storageMode: "localStorage", maxAge: 10000});
-      CacheFactory("leaguesCache", {storageMode: "localStorage", maxAge: 10000});
+      CacheFactory("leagueDataCache", {storageMode: "localStorage", maxAge: 6000000, deleteOnExpire: "aggressive"});
+      CacheFactory("leaguesCache", {storageMode: "localStorage", maxAge: 6000000, deleteOnExpire: "aggressive"});
       CacheFactory("myTeamsCache", {storageMode: "localStorage"});
       CacheFactory("staticCache", {storageMode: "localStorage"});
     });

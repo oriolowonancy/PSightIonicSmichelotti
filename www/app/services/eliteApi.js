@@ -4,8 +4,9 @@
     eliteApi.$inject = ['$http', '$q', '$ionicLoading', '$timeout', 'CacheFactory'];
     angular.module('eliteApp').factory('eliteApi', eliteApi);
 
-
     function eliteApi($http, $q, $ionicLoading, $timeout, CacheFactory) {
+
+        var self = this;
 
         self.leaguesCache = CacheFactory.get("leaguesCache");
         self.leagueDataCache = CacheFactory.get("leagueDataCache");

@@ -1,10 +1,10 @@
 (function () {
   'use strict';
 
-  TeamDetailCtrl.$inject = ['$stateParams', '$log', '$ionicPopup', 'eliteApi', '$state'];
+  TeamDetailCtrl.$inject = ['$stateParams', '$log', '$ionicPopup', 'eliteApi', '$state', 'myTeamsService'];
   angular.module('eliteApp').controller('MainDetailCtrl', TeamDetailCtrl);
 
-  function TeamDetailCtrl($stateParams, $log, $ionicPopup, eliteApi, $state) {
+  function TeamDetailCtrl($stateParams, $log, $ionicPopup, eliteApi, $state, myTeamsService) {
     var vm = this;
 
     $log.debug('invoked teamDetailCtrl', $stateParams);
@@ -13,12 +13,12 @@
 
     eliteApi.getLeaguesData().then(function (data) {
 
-      var team = _.chain(data.teams)
+      vm.team = _.chain(data.teams)
           .flatten("divisionTeams")
           .find({ "id": vm.teamId })
           .value();
 
-      vm.teamName = team.name;
+      vm.teamName = vm.team.name;
 
       vm.games = _.chain(data.games)
           .filter(isTeamInGame)
@@ -60,10 +60,12 @@
         confirmPopup.then(function (res) {
           if (res) {
             vm.following = !vm.following;
+            myTeamsService.unfollowTeam(vm.teamId);
           }
         });
       } else {
         vm.following = !vm.following;
+        myTeamsService.followTeam(vm.team);
       }
     };
 
